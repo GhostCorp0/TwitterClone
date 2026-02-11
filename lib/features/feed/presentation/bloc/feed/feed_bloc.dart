@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:twitter_clone/features/feed/domain/usecases/fetch_posts_use_case.dart';
-import 'package:twitter_clone/features/feed/presentation/bloc/feed_event.dart';
 
-import '../../../../core/utils.dart';
+import '../../../../../core/utils.dart';
+import '../../../domain/usecases/fetch_posts_use_case.dart';
+import 'feed_event.dart';
 import 'feed_state.dart';
 
 class FeedBloc extends Bloc<FeedEvent,FeedState>{

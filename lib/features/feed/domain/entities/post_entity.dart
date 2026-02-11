@@ -19,5 +19,13 @@ class PostEntity {
     this.commentsCount,
     this.repostsCount,
     this.imageUrl,
-  });
+  }) {
+    if(username.trim().isEmpty){
+      throw Exception("Username cannot be empty");
+    }
+
+    if(content.trim().isEmpty){
+      throw Exception("Post content cannot be empty");
+    }
+  }
 }

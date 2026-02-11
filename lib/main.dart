@@ -8,8 +8,10 @@ import 'package:twitter_clone/features/auth/domain/usecases/register_use_case.da
 import 'package:twitter_clone/features/auth/presentation/login/bloc/login_bloc.dart';
 import 'package:twitter_clone/features/auth/presentation/login/screens/login_page.dart';
 import 'package:twitter_clone/features/feed/data/repository/mock_posts_repository.dart';
+import 'package:twitter_clone/features/feed/domain/usecases/create_post_usecase.dart';
 import 'package:twitter_clone/features/feed/domain/usecases/fetch_posts_use_case.dart';
-import 'package:twitter_clone/features/feed/presentation/bloc/feed_bloc.dart';
+import 'package:twitter_clone/features/feed/presentation/bloc/feed/feed_bloc.dart';
+import 'package:twitter_clone/features/feed/presentation/bloc/post/create_post_bloc.dart';
 import 'package:twitter_clone/features/feed/presentation/screens/feed_page.dart';
 import 'features/auth/domain/services/user_session_service.dart';
 import 'features/auth/presentation/register/bloc/register_bloc.dart';
@@ -31,6 +33,7 @@ class MyApp extends StatelessWidget {
       sessionLocalDataSource: sessionLocalDataSource,
     );
 
+    final postRepository = MockPostsRepository();
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -39,21 +42,23 @@ class MyApp extends StatelessWidget {
               authRepository: MockAuthRepository(),
             ),
             userSessionService: userSessionService,
-          ),
-          child: RegisterPage(),
+          )
         ),
         BlocProvider(
           create: (_) => LoginBloc(
             loginUseCase: LoginUseCase(authRepository: MockAuthRepository()),
             userSessionService: userSessionService,
-          ),
-          child: LoginPage(),
+          )
         ),
         BlocProvider(
           create: (_) => FeedBloc(
-            fetchPostsUseCase: FetchPostsUseCase(postRepository: MockPostsRepository()),
-          ),
-          child: LoginPage(),
+            fetchPostsUseCase: FetchPostsUseCase(postRepository: postRepository),
+          )
+        ),
+        BlocProvider(
+          create: (_) => CreatePostBloc(
+            createPostUseCase: CreatePostUseCase(postRepository: postRepository),
+          )
         ),
       ],
       child: MaterialApp(
