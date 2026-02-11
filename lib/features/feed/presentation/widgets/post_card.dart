@@ -15,29 +15,32 @@ class PostCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CircleAvatar(radius:20,backgroundColor: Colors.grey),
-          SizedBox(width: 10),
-          Expanded(child:Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Text(
-                    post.username,
-                    style: TextStyle(color:Colors.white,fontWeight: FontWeight.bold, fontSize: 16),
-                  ),
-                  SizedBox(width: 5,),
-                  Spacer(),
-                  Text(
-                    formatDate(post.createdAt),
-                    style: TextStyle(color:Colors.white,fontWeight: FontWeight.bold, fontSize: 16),
-                  ),
-                ],
-              ),
-              SizedBox(height: 10),
-              Text(post.content*20, style: TextStyle(color:Colors.white,fontSize: 15)),
-            ],
-          )),
+          Row(crossAxisAlignment: CrossAxisAlignment.start,children: [
+            CircleAvatar(radius:20,backgroundColor: Colors.grey),
+            SizedBox(width: 10),
+            Expanded(child:Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      post.username,
+                      style: TextStyle(color:Colors.white,fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                    SizedBox(width: 5,),
+                    Spacer(),
+                    Text(
+                      formatDate(post.createdAt),
+                      style: TextStyle(color:Colors.white,fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+                Text(post.content*20, style: TextStyle(color:Colors.white,fontSize: 15)),
+              ],
+            ))
+          ],),
           if (post.imageUrl != null && post.imageUrl!.isNotEmpty) ...[
             const SizedBox(height: 12),
             ClipRRect(

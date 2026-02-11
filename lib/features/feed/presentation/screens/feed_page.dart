@@ -23,72 +23,98 @@ class _FeedPageState extends State<FeedPage> {
     super.initState();
   }
 
-  void _showCreatePostDialog(BuildContext context) {
+  void _showCreatePostModal(BuildContext context) {
     final TextEditingController contentController = TextEditingController();
     final formKey = GlobalKey<FormState>();
     final feedContext = context;
 
-    showDialog(
+    showModalBottomSheet(
       context: context,
-      builder: (dialogContext) {
+      backgroundColor: Colors.black,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (BuildContext context) {
         return BlocConsumer<CreatePostBloc, CreatePostState>(
           listener: (_, state) {
             if (state is CreatePostSuccess) {
-              Navigator.pop(dialogContext);
+              Navigator.pop(context);
               feedContext.read<FeedBloc>().add(FetchPostsRequested());
               ScaffoldMessenger.of(
                 feedContext,
               ).showSnackBar(const SnackBar(content: Text("Post Created")));
             } else if (state is CreatePostFailure) {
-              Navigator.pop(dialogContext);
+              Navigator.pop(context);
               ScaffoldMessenger.of(
                 feedContext,
               ).showSnackBar(SnackBar(content: Text(state.message)));
             }
           },
           builder: (context, state) {
-            return AlertDialog(
-              title: Text("Create Post"),
-              content: Form(
-                key: formKey,
-                child: TextFormField(
-                  controller: contentController,
-                  decoration: InputDecoration(hintText: "What's happening?"),
-                  maxLines: 5,
-                  validator: (value) => value == null || value.trim().isEmpty
-                      ? 'Content is required'
-                      : null,
+            return Padding(
+              padding: MediaQuery.of(context).viewInsets,
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CircleAvatar(
+                            radius: 20,
+                            backgroundColor: Colors.grey,
+                          ),
+                          SizedBox(width: 20),
+                          Expanded(
+                            child: TextFormField(
+                              controller: contentController,
+                              maxLines: null,
+                              style: TextStyle(color: Colors.white),
+                              decoration: InputDecoration(
+                                hintText: "What's happening",
+                                hintStyle: TextStyle(color: Colors.grey),
+                                border: InputBorder.none,
+                              ),
+                              validator:  (value) => value == null || value.trim().isEmpty ? "Content is required":null,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 16,),
+                      Align(
+                        alignment: Alignment.centerRight,
+                         child:   ElevatedButton(
+                           onPressed: state is CreatePostLoading
+                               ? null
+                               : () {
+                             if (formKey.currentState!.validate()) {
+                               context.read<CreatePostBloc>().add(
+                                 CreatePostRequested(
+                                   imageUrl: "",
+                                   username: 'Aman Singh',
+                                   content: contentController.text.trim(),
+                                   userId: '127',
+                                 ),
+                               );
+                             }
+                           },
+                           style: ElevatedButton.styleFrom(backgroundColor: Colors.blue,
+                           padding: EdgeInsets.symmetric(horizontal: 20,vertical: 12),shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))),
+                           child: state is CreatePostLoading
+                               ? const SizedBox(
+                             height: 16,
+                             width: 16,
+                             child: CircularProgressIndicator(strokeWidth: 2),
+                           )
+                               : const Text("Post",style: TextStyle(color: Colors.white),),
+                         ),
+                      )
+                    ],
+                  ),
                 ),
               ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text("Cancel"),
-                ),
-                ElevatedButton(
-                  onPressed: state is CreatePostLoading
-                      ? null
-                      : () {
-                          if (formKey.currentState!.validate()) {
-                            context.read<CreatePostBloc>().add(
-                              CreatePostRequested(
-                                imageUrl: "",
-                                username: 'Aman Singh',
-                                content: contentController.text.trim(),
-                                userId: '127',
-                              ),
-                            );
-                          }
-                        },
-                  child: state is CreatePostLoading
-                      ? const SizedBox(
-                          height: 16,
-                          width: 16,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        )
-                      : const Text("Post"),
-                ),
-              ],
             );
           },
         );
@@ -103,13 +129,18 @@ class _FeedPageState extends State<FeedPage> {
       appBar: AppBar(
         centerTitle: true,
         actions: [
-          IconButton(onPressed:(){}, icon:Icon(Icons.mail_outline,color:Colors.white))
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.mail_outline, color: Colors.white),
+          ),
         ],
-        title:Image.asset("assets/images/logo.png",width: 32,height:32),
+        title: Image.asset("assets/images/logo.png", width: 32, height: 32),
         backgroundColor: Colors.black,
         elevation: 0.5,
-        leading: Padding(padding: EdgeInsets.all(8.0),
-        child: CircleAvatar(backgroundColor: Colors.grey[800])),
+        leading: Padding(
+          padding: EdgeInsets.all(8.0),
+          child: CircleAvatar(backgroundColor: Colors.grey[800]),
+        ),
       ),
       body: BlocBuilder<FeedBloc, FeedState>(
         builder: (context, state) {
@@ -131,9 +162,9 @@ class _FeedPageState extends State<FeedPage> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _showCreatePostDialog(context),
+        onPressed: () => _showCreatePostModal(context),
         backgroundColor: Colors.blue,
-        child: const Icon(Icons.add,color: Colors.white),
+        child: const Icon(Icons.add, color: Colors.white),
       ),
     );
   }
