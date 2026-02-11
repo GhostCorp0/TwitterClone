@@ -10,14 +10,14 @@ class PostEntity {
   final String? imageUrl;
 
   PostEntity({
-    required this.id,
+    this.id,
     required this.userId,
     required this.username,
     required this.content,
     required this.createdAt,
-    required this.likesCount,
-    required this.commentsCount,
-    required this.repostsCount,
-    required this.imageUrl,
+    this.likesCount,
+    this.commentsCount,
+    this.repostsCount,
+    this.imageUrl,
   });
 }

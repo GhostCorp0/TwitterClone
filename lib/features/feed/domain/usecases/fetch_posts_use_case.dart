@@ -9,6 +9,6 @@ class FetchPostsUseCase {
   Future<List<PostEntity>> call() async {
     final result = postRepository.fetchPost();
     return result;
-  }
+  } 
 
 }

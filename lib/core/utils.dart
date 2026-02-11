@@ -4,3 +4,7 @@ String formatError(Object error){
   }
   return error.toString();
 }
+
+String formatDate(DateTime date){
+  return date.toLocal().toIso8601String().substring(0,10); 
+}
