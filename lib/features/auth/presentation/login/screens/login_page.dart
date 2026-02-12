@@ -52,10 +52,6 @@ class _LoginPageState extends State<LoginPage> {
           },
           child: BlocBuilder<LoginBloc, LoginState>(
             builder: (context, state) {
-              if (state is LoginLoading) {
-                return const Center(child: CircularProgressIndicator());
-              }
-
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [

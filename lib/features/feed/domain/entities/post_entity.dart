@@ -1,4 +1,4 @@
-class PostEntity {
+class   PostEntity {
   final String? id;
   final String userId;
   final String username;
@@ -50,7 +50,7 @@ class PostEntity {
       'user_id':userId,
       'user_name':username,
       'content':content,
-      'created_at':createdAt,
+      'created_at':createdAt.toIso8601String(),
       'image_url':imageUrl,
       'likes_count':likesCount,
       'comments_count':commentsCount,

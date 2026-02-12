@@ -21,6 +21,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         password: event.password,
       );
       await userSessionService.persistToken(token: token);
+     // await userSessionService.saveUserId(user: token);
       emit(LoginSuccess());
     } catch (e) {
       emit(LoginFailure(message: formatError(e)));

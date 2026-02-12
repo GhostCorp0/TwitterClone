@@ -22,14 +22,13 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Supabase.initialize(
     url: 'https://gyqmkvbytgjcosgxfqph.supabase.co',
-    anonKey: '',
+    anonKey: 'sb_secret_NwS3qS_F9EauKLD1dzJymw_Uqs9LPuh',
   );
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   MyApp({super.key});
-
   final supabase = Supabase.instance.client;
 
   @override

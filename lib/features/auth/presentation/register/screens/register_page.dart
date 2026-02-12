@@ -52,10 +52,6 @@ class _RegisterPageState extends State<RegisterPage> {
           },
           child: BlocBuilder<RegisterBloc, RegisterState>(
             builder: (context, state) {
-              if (state is RegisterLoading) {
-                return const Center(child: CircularProgressIndicator());
-              }
-          
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [

@@ -96,7 +96,7 @@ class _FeedPageState extends State<FeedPage> {
                                    imageUrl: "",
                                    username: 'Aman Singh',
                                    content: contentController.text.trim(), 
-                                   userId: '127',
+                                   userId: '388efa9b-a9af-489c-84b7-a9cdcb540c85',
                                  ), 
                                );
                              }
