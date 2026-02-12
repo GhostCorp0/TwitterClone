@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:twitter_clone/features/auth/domain/services/user_session_service.dart';
 import 'package:twitter_clone/features/feed/presentation/bloc/post/create_post_event.dart';
 import 'package:twitter_clone/features/feed/presentation/bloc/post/create_post_state.dart';
 
@@ -52,8 +53,8 @@ class _FeedPageState extends State<FeedPage> {
           },
           builder: (context, state) {
             return SizedBox(
-              height: MediaQuery.of(context).size.height/2,
-               child: Padding(
+              height: MediaQuery.of(context).size.height / 2,
+              child: Padding(
                 padding: EdgeInsets.all(16),
                 child: Form(
                   key: formKey,
@@ -78,40 +79,59 @@ class _FeedPageState extends State<FeedPage> {
                                 hintStyle: TextStyle(color: Colors.grey),
                                 border: InputBorder.none,
                               ),
-                              validator:  (value) => value == null || value.trim().isEmpty ? "Content is required":null,
+                              validator: (value) =>
+                                  value == null || value.trim().isEmpty
+                                  ? "Content is required"
+                                  : null,
                             ),
                           ),
                         ],
                       ),
-                      SizedBox(height: 16,),
+                      SizedBox(height: 16),
                       Align(
                         alignment: Alignment.centerRight,
-                         child:   ElevatedButton(
-                           onPressed: state is CreatePostLoading
-                               ? null
-                               : () {
-                             if (formKey.currentState!.validate()) {
-                               context.read<CreatePostBloc>().add(
-                                 CreatePostRequested(
-                                   imageUrl: "",
-                                   username: 'Aman Singh',
-                                   content: contentController.text.trim(), 
-                                   userId: '388efa9b-a9af-489c-84b7-a9cdcb540c85',
-                                 ), 
-                               );
-                             }
-                           },
-                           style: ElevatedButton.styleFrom(backgroundColor: Colors.blue,
-                           padding: EdgeInsets.symmetric(horizontal: 20,vertical: 12),shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))),
-                           child: state is CreatePostLoading
-                               ? const SizedBox(
-                             height: 16,
-                             width: 16,
-                             child: CircularProgressIndicator(strokeWidth: 2),
-                           )
-                               : const Text("Post",style: TextStyle(color: Colors.white),),
-                         ),
-                      )
+                        child: ElevatedButton(
+                          onPressed: state is CreatePostLoading
+                              ? null
+                              : () async{
+                                  if (formKey.currentState!.validate()) {
+                                    final userSession = await context.read<UserSessionService>().getUserSession();
+                                    if(userSession != null){
+                                      context.read<CreatePostBloc>().add(
+                                        CreatePostRequested(
+                                          imageUrl: "",
+                                          username: userSession.email.split('@').first,
+                                          content: contentController.text.trim(),
+                                          userId: userSession.id,
+                                        ),
+                                      );
+                                    }
+                                  }
+                                },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 12,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                          ),
+                          child: state is CreatePostLoading
+                              ? const SizedBox(
+                                  height: 16,
+                                  width: 16,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                  ),
+                                )
+                              : const Text(
+                                  "Post",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -134,6 +154,13 @@ class _FeedPageState extends State<FeedPage> {
             onPressed: () {},
             icon: Icon(Icons.mail_outline, color: Colors.white),
           ),
+          IconButton(
+            onPressed: () async{
+              await context.read<UserSessionService>().logout();
+              Navigator.pushReplacementNamed(context,'/splash');
+            },
+            icon: Icon(Icons.logout, color: Colors.white),
+          ),
         ],
         title: Image.asset("assets/images/logo.png", width: 32, height: 32),
         backgroundColor: Colors.black,
@@ -150,7 +177,7 @@ class _FeedPageState extends State<FeedPage> {
           } else if (state is FeedLoaded) {
             final posts = state.posts;
             if (posts.isEmpty) {
-              return const Center(child: Text("No posts found"));
+              return const Center(child: Text("No posts found",style: TextStyle(color: Colors.white),));
             }
             return ListView.builder(
               itemCount: posts.length,

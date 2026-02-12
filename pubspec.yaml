@@ -18,6 +18,7 @@ dependencies:
   flutter_bloc:
   equatable:
   flutter_secure_storage:
+  provider:
 
 
 dev_dependencies:
