@@ -22,7 +22,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Supabase.initialize(
     url: 'https://gyqmkvbytgjcosgxfqph.supabase.co',
-    anonKey: 'sb_secret_NwS3qS_F9EauKLD1dzJymw_Uqs9LPuh',
+    anonKey: '',
   );
   runApp(MyApp());
 }
