@@ -14,6 +14,7 @@ import 'package:twitter_clone/features/feed/domain/usecases/fetch_posts_use_case
 import 'package:twitter_clone/features/feed/presentation/bloc/feed/feed_bloc.dart';
 import 'package:twitter_clone/features/feed/presentation/bloc/post/create_post_bloc.dart';
 import 'package:twitter_clone/features/feed/presentation/screens/feed_page.dart';
+import 'package:twitter_clone/features/splash/splash_page.dart';
 import 'features/auth/domain/services/user_session_service.dart';
 import 'features/auth/presentation/register/bloc/register_bloc.dart';
 import 'features/auth/presentation/register/screens/register_page.dart';
@@ -78,8 +79,9 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         ),
-        initialRoute: "/login",
+        initialRoute: "/splash",
         routes: {
+          "/splash": (_) => SplashPage(userSessionService: userSessionService),
           "/register": (_) => const RegisterPage(),
           "/login": (_) => const LoginPage(),
           '/home': (_) => const FeedPage(),

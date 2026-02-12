@@ -31,7 +31,14 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(child: CircularProgressIndicator()),
+      backgroundColor: Colors.black,
+      body: Center(
+        child: Image.asset(
+          "assets/images/logo.png",
+          width: 48,
+          height: 48,
+        ),
+      ),
     );
   }
 }
