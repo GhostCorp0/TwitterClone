@@ -1,16 +1,10 @@
-# twitter_clone
+# Twitter Clone
 
 A twitter clone
 
-## Getting Started
+#Screenshots
 
-This project is a starting point for a Flutter application.
+<img width="360" height="780" alt="Image" src="https://github.com/user-attachments/assets/d372d71a-411f-4309-8476-69a52e6a35a2" />
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<img width="360" height="780" alt="Image" src="https://github.com/user-attachments/assets/9461b994-a423-471c-a059-78796c14f5ab" />
+<img width="360" height="780" alt="Image" src="https://github.com/user-attachments/assets/003881f0-80ad-4a43-8b91-4c5eb009209b" />
