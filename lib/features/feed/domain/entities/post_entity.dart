@@ -20,12 +20,44 @@ class PostEntity {
     this.repostsCount,
     this.imageUrl,
   }) {
-    if(username.trim().isEmpty){
+    if (username.trim().isEmpty) {
       throw Exception("Username cannot be empty");
     }
 
-    if(content.trim().isEmpty){
+    if (content.trim().isEmpty) {
       throw Exception("Post content cannot be empty");
     }
   }
+
+  //Serialization layer
+  factory PostEntity.fromJson(Map<String, dynamic> json) {
+    return PostEntity(
+      id:json['id'],
+      userId: json['user_id'],
+      username: json['username'],
+      content: json['content'],
+      createdAt: DateTime.parse(json['created_at']),
+      imageUrl: json['image_url'],
+      likesCount: json['likes_count'],
+      commentsCount:json['comments_count'],
+      repostsCount: json['reposts_count']
+    );
+  }
+
+  Map<String,dynamic> toJson(){
+    return {
+      if(id != null) 'id':id,
+      'user_id':userId,
+      'user_name':username,
+      'content':content,
+      'created_at':createdAt,
+      'image_url':imageUrl,
+      'likes_count':likesCount,
+      'comments_count':commentsCount,
+      'reposts_count':repostsCount
+    };
+  }
+
+  bool hasImage() => imageUrl!=null && imageUrl!.isNotEmpty;
+
 }

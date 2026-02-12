@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:twitter_clone/features/auth/data/datasources/session_local_data_source.dart';
-import 'package:twitter_clone/features/auth/data/repository/MockAuthRepository.dart';
+import 'package:twitter_clone/features/auth/data/repository/supabase_auth_repository.dart';
 import 'package:twitter_clone/features/auth/domain/usecases/login_usecase.dart';
 import 'package:twitter_clone/features/auth/domain/usecases/register_use_case.dart';
 import 'package:twitter_clone/features/auth/presentation/login/bloc/login_bloc.dart';
 import 'package:twitter_clone/features/auth/presentation/login/screens/login_page.dart';
-import 'package:twitter_clone/features/feed/data/repository/mock_posts_repository.dart';
+import 'package:twitter_clone/features/feed/data/repository/supabase_posts_repository.dart';
 import 'package:twitter_clone/features/feed/domain/usecases/create_post_usecase.dart';
 import 'package:twitter_clone/features/feed/domain/usecases/fetch_posts_use_case.dart';
 import 'package:twitter_clone/features/feed/presentation/bloc/feed/feed_bloc.dart';
@@ -17,12 +18,19 @@ import 'features/auth/domain/services/user_session_service.dart';
 import 'features/auth/presentation/register/bloc/register_bloc.dart';
 import 'features/auth/presentation/register/screens/register_page.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Supabase.initialize(
+    url: 'https://gyqmkvbytgjcosgxfqph.supabase.co',
+    anonKey: 'sb_secret_NwS3qS_F9EauKLD1dzJymw_Uqs9LPuh',
+  );
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+
+  final supabase = Supabase.instance.client;
 
   @override
   Widget build(BuildContext context) {
@@ -32,33 +40,37 @@ class MyApp extends StatelessWidget {
     final UserSessionService userSessionService = UserSessionService(
       sessionLocalDataSource: sessionLocalDataSource,
     );
-
-    final postRepository = MockPostsRepository();
     return MultiBlocProvider(
       providers: [
         BlocProvider(
           create: (_) => RegisterBloc(
             registerUseCase: RegisterUseCase(
-              authRepository: MockAuthRepository(),
+              authRepository: SupabaseAuthRepository(client: supabase),
             ),
             userSessionService: userSessionService,
-          )
+          ),
         ),
         BlocProvider(
           create: (_) => LoginBloc(
-            loginUseCase: LoginUseCase(authRepository: MockAuthRepository()),
+            loginUseCase: LoginUseCase(
+              authRepository: SupabaseAuthRepository(client: supabase),
+            ),
             userSessionService: userSessionService,
-          )
+          ),
         ),
         BlocProvider(
           create: (_) => FeedBloc(
-            fetchPostsUseCase: FetchPostsUseCase(postRepository: postRepository),
-          )
+            fetchPostsUseCase: FetchPostsUseCase(
+              postRepository: SupabasePostsRepository(client: supabase),
+            ),
+          ),
         ),
         BlocProvider(
           create: (_) => CreatePostBloc(
-            createPostUseCase: CreatePostUseCase(postRepository: postRepository),
-          )
+            createPostUseCase: CreatePostUseCase(
+              postRepository: SupabasePostsRepository(client: supabase),
+            ),
+          ),
         ),
       ],
       child: MaterialApp(

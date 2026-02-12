@@ -29,15 +29,15 @@ class PostCard extends StatelessWidget {
                       style: TextStyle(color:Colors.white,fontWeight: FontWeight.bold, fontSize: 16),
                     ),
                     SizedBox(width: 5,),
-                    Spacer(),
+                    Spacer(), 
                     Text(
                       formatDate(post.createdAt),
-                      style: TextStyle(color:Colors.white,fontWeight: FontWeight.bold, fontSize: 16),
+                      style: TextStyle(color:Colors.white,fontWeight: FontWeight.bold, fontSize:14),
                     ),
                   ],
                 ),
                 SizedBox(height: 10),
-                Text(post.content*20, style: TextStyle(color:Colors.white,fontSize: 15)),
+                Text(post.content, style: TextStyle(color:Colors.white,fontSize: 15)),
               ],
             ))
           ],),

@@ -51,13 +51,14 @@ class _FeedPageState extends State<FeedPage> {
             }
           },
           builder: (context, state) {
-            return Padding(
-              padding: MediaQuery.of(context).viewInsets,
-              child: Padding(
+            return SizedBox(
+              height: MediaQuery.of(context).size.height/2,
+               child: Padding(
                 padding: EdgeInsets.all(16),
                 child: Form(
                   key: formKey,
                   child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,9 +95,9 @@ class _FeedPageState extends State<FeedPage> {
                                  CreatePostRequested(
                                    imageUrl: "",
                                    username: 'Aman Singh',
-                                   content: contentController.text.trim(),
+                                   content: contentController.text.trim(), 
                                    userId: '127',
-                                 ),
+                                 ), 
                                );
                              }
                            },
