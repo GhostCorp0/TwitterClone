@@ -50,6 +50,7 @@ class PostCard extends StatelessWidget {
           ],
           const SizedBox(height: 10),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               _PostState(icon: Icons.favorite_border, count: post.likesCount),
               _PostState(

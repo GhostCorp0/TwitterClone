@@ -34,7 +34,7 @@ class   PostEntity {
     return PostEntity(
       id:json['id'],
       userId: json['user_id'],
-      username: json['username'],
+      username: (json['user_name'] ?? '').toString(),
       content: json['content'],
       createdAt: DateTime.parse(json['created_at']),
       imageUrl: json['image_url'],

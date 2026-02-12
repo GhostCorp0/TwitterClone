@@ -1,3 +1,4 @@
+import 'package:twitter_clone/features/auth/domain/entities/user_session_entity.dart';
 import 'package:twitter_clone/features/auth/domain/repository/auth_repository.dart';
 
 import '../models/LoginParams.dart';
@@ -7,7 +8,7 @@ class LoginUseCase {
 
   LoginUseCase({required this.authRepository});
 
-  Future<String> call({required String email,required String password}) async{
+  Future<UserSessionEntity> call({required String email,required String password}) async{
     final loginParams = LoginParams(email:email,password:password);
     final token = await authRepository.login(loginParams:loginParams);
     return token;
