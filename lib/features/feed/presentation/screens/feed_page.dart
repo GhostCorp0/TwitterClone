@@ -66,7 +66,7 @@ class _FeedPageState extends State<FeedPage> {
                         children: [
                           CircleAvatar(
                             radius: 20,
-                            backgroundColor: Colors.grey,
+                            backgroundImage: NetworkImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkOGOMFy9mPGidW3q9Ku-yfbZ48UccV6c49w&s"),
                           ),
                           SizedBox(width: 20),
                           Expanded(
@@ -167,7 +167,7 @@ class _FeedPageState extends State<FeedPage> {
         elevation: 0.5,
         leading: Padding(
           padding: EdgeInsets.all(8.0),
-          child: CircleAvatar(backgroundColor: Colors.grey[800]),
+          child: CircleAvatar(backgroundImage: NetworkImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkOGOMFy9mPGidW3q9Ku-yfbZ48UccV6c49w&s"),),
         ),
       ),
       body: BlocBuilder<FeedBloc, FeedState>(

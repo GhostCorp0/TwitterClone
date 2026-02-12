@@ -71,6 +71,7 @@ class MyApp extends StatelessWidget {
               likePostUseCase: LikePostUseCase(
                 postRepository: SupabasePostsRepository(client: supabase),
               ),
+              userSessionService: userSessionService
             ),
           ),
           BlocProvider(

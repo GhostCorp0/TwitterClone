@@ -6,9 +6,9 @@ class FetchPostsUseCase {
 
   FetchPostsUseCase({required this.postRepository});
 
-  Future<List<PostEntity>> call() async {
-    final result = postRepository.fetchPost();
+  Future<List<PostEntity>> call({String? currentUserId}) async {
+    final result = postRepository.fetchPost(currentUserId: currentUserId);
     return result;
-  } 
+  }
 
 }

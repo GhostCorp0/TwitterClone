@@ -22,7 +22,7 @@ class PostCard extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CircleAvatar(radius: 20, backgroundColor: Colors.grey),
+              CircleAvatar(radius: 20, backgroundColor: Colors.grey,backgroundImage: NetworkImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr7V6XIZadjlKNetL-VZRaqkCOFBXMEUwEBw&s"),),
               SizedBox(width: 10),
               Expanded(
                 child: Column(
@@ -56,24 +56,26 @@ class PostCard extends StatelessWidget {
                       post.content,
                       style: TextStyle(color: Colors.white, fontSize: 15),
                     ),
+
+                    if (post.imageUrl != null && post.imageUrl!.isNotEmpty) ...[
+                      const SizedBox(height: 12),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: Image.network(post.imageUrl!,fit: BoxFit.cover,width: double.infinity,),
+                      ),
+                    ],
                   ],
                 ),
               ),
             ],
           ),
-          if (post.imageUrl != null && post.imageUrl!.isNotEmpty) ...[
-            const SizedBox(height: 12),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Image.network(post.imageUrl!),
-            ),
-          ],
           const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               _PostState(
-                icon: Icons.favorite_border,
+                icon: post.isLikedByCurrentUser ==true?Icons.favorite:Icons.favorite_border,
+                iconColor: post.isLikedByCurrentUser == true?Colors.red:Colors.grey,
                 count: post.likesCount,
                 onTap: () {
                   final userSessionService = context.read<UserSessionService>();
@@ -107,14 +109,14 @@ class PostCard extends StatelessWidget {
 
 class _PostState extends StatelessWidget {
   final IconData icon;
+  final Color? iconColor;
   final int? count;
   final VoidCallback onTap;
 
   const _PostState({
-    super.key,
     required this.icon,
     this.count,
-    required this.onTap,
+    required this.onTap, this.iconColor,
   });
 
   @override
