@@ -17,9 +17,9 @@ class SupabaseAuthRepository implements AuthRepository{
       }
       return session.accessToken;
     } on AuthException catch(e){
-      throw Exception(e);
+      throw Exception(e.message);
     }catch(e){
-      throw Exception("Login Failed");
+      throw Exception("Login failed");
     }
   }
 
@@ -29,13 +29,15 @@ class SupabaseAuthRepository implements AuthRepository{
       final response = await client.auth.signUp(email:user.email,password: user.password,data: {
         'username':user.username
       });
-      final session = response.session;
-      if(session == null || session.accessToken.isEmpty){
-        throw Exception("Invalid Session");
+      if (response.user == null) {
+        throw Exception("Registration failed");
       }
-      return session.accessToken;
+      // If email confirmation is enabled in Supabase, session can be null here.
+      return response.session?.accessToken ?? '';
+    } on AuthException catch (e) {
+      throw Exception(e.message);
     }catch(e){
-      throw Exception("Register Failed");
+      throw Exception("Register failed");
     }
   }
 

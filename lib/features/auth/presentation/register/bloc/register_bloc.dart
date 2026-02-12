@@ -22,7 +22,9 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         username: event.username,
         password: event.password,
       );
-      await userSessionService.persistToken(token: token);
+      if (token.isNotEmpty) {
+        await userSessionService.persistToken(token: token);
+      }
       emit(RegisterSuccess());
     } catch (e) {
       emit(RegisterFailure(message:formatError(e)));
